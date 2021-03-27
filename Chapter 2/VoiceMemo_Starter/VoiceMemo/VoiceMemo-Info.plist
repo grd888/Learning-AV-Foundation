@@ -36,5 +36,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Voice Memo needs access to the microphone so you can make recordings</string>
 </dict>
 </plist>

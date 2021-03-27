@@ -108,6 +108,7 @@
                                                 selector:@selector(updateTimeDisplay)
                                                 userInfo:nil
                                                  repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
 - (void)updateTimeDisplay {
