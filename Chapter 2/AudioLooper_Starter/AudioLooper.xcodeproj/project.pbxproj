@@ -182,12 +182,18 @@
 				CLASSPREFIX = TH;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "TapHarmonic, LLC";
+				TargetAttributes = {
+					C4AAD66A178A72BC0088288F = {
+						DevelopmentTeam = LZY5Z4A3XU;
+					};
+				};
 			};
 			buildConfigurationList = C4AAD666178A72BC0088288F /* Build configuration list for PBXProject "AudioLooper" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -358,10 +364,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = LZY5Z4A3XU;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AudioLooper/AudioLooper-Prefix.pch";
 				INFOPLIST_FILE = "AudioLooper/AudioLooper-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tapharmonic.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = org.gdelgado.AudioLooper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -373,10 +380,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = LZY5Z4A3XU;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AudioLooper/AudioLooper-Prefix.pch";
 				INFOPLIST_FILE = "AudioLooper/AudioLooper-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tapharmonic.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = org.gdelgado.AudioLooper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
