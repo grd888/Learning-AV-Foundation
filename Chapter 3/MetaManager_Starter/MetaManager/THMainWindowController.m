@@ -100,8 +100,11 @@
         self.mediaItem = self.mediaItems[view.selectedRow];
         [self.saveButton setEnabled:self.mediaItem.isEditable];
         [self.mediaItem prepareWithCompletionHandler:^(BOOL complete) {
-            [self.mediaItemsController setSelectionIndex:view.selectedRow];
-            self.genreCombo.objectValue = self.mediaItem.metadata.genre;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.mediaItemsController setSelectionIndex:view.selectedRow];
+                self.genreCombo.objectValue = self.mediaItem.metadata.genre;
+            });
+            
         }];
     } else {
         self.mediaItem = nil;

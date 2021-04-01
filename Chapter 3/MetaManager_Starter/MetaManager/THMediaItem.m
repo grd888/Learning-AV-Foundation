@@ -120,7 +120,43 @@
 - (void)saveWithCompletionHandler:(THCompletionHandler)handler {
 
     // Listing 3.17
+    NSString *presetName = AVAssetExportPresetPassthrough;                  // 1
+    AVAssetExportSession *session =
+        [[AVAssetExportSession alloc] initWithAsset:self.asset presetName:presetName];
     
+    NSURL *outputURL = [self tempURL];                                      // 2
+    session.outputURL = outputURL;
+    session.outputFileType = self.filetype;
+    session.metadata = [self.metadata metadataItems];                       // 3
+    
+    [session exportAsynchronouslyWithCompletionHandler:^{
+        AVAssetExportSessionStatus status = session.status;
+        BOOL success = (status == AVAssetExportSessionStatusCompleted);
+        if (success) {                                                      // 4
+            NSURL *sourceURL = self.url;
+            NSFileManager *manager = [NSFileManager defaultManager];
+            [manager removeItemAtURL:sourceURL error:nil];
+            [manager moveItemAtURL:outputURL toURL:sourceURL error:nil];
+            [self reset];                                                   // 5
+        }
+        if (handler) {
+            handler(success);
+        }
+    }];
+}
+
+- (NSURL *)tempURL {
+    NSString *tempDir = NSTemporaryDirectory();
+    NSString *ext = [[self.url lastPathComponent] pathExtension];
+    NSString *tempName = [NSString stringWithFormat:@"temp.%@", ext];
+    NSString *tempPath = [tempDir stringByAppendingPathComponent:tempName];
+    
+    return [NSURL fileURLWithPath:tempPath];
+}
+
+- (void)reset {
+    _prepared = NO;
+    _asset = [AVAsset assetWithURL:self.url];
 }
 
 @end

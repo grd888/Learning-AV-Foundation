@@ -144,8 +144,64 @@
 - (NSArray *)metadataItems {
 
     // Listing 3.16
+    NSMutableArray *items = [NSMutableArray array];                                             // 1
     
-    return nil;
+    // Add track number/count if applicable
+    [self addMetadataItemForNumber:self.trackNumber                                             // 2
+                             count:self.trackCount
+                         numberKey:THMetadataKeyTrackNumber
+                          countKey:THMetadataKeyTrackCount
+                           toArray:items];
+    
+    // Add disc number/count if applicable
+    [self addMetadataItemForNumber:self.discNumber
+                             count:self.discCount
+                         numberKey:THMetadataKeyDiscNumber
+                          countKey:THMetadataKeyDiscCount
+                           toArray:items];
+    
+    NSMutableDictionary *metaDict = [self.metadata mutableCopy];                                // 5
+    [metaDict removeObjectForKey:THMetadataKeyTrackNumber];
+    [metaDict removeObjectForKey:THMetadataKeyDiscNumber];
+    
+    for (NSString *key in metaDict) {
+        
+        id <THMetadataConverter> converter = [self.converterFactory converterForKey:key];
+        
+        id value = [self valueForKey:key];                                                      // 6
+        
+        AVMetadataItem *item = [converter metadataItemFromDisplayValue:value                    // 7
+                                                      withMetadataItem:metaDict[key]];
+        
+        if (item) {
+            [items addObject:item];
+        }
+    }
+    
+    return items;
+}
+
+- (void)addMetadataItemForNumber:(NSNumber *)number
+                           count:(NSNumber *)count
+                       numberKey:(NSString *)numberKey
+                        countKey:(NSString *)countKey
+                         toArray:(NSMutableArray *)items {
+    id <THMetadataConverter> converter =
+        [self.converterFactory converterForKey:numberKey];
+    
+    NSDictionary *data = @{numberKey: number ?: [NSNull null],                          // 3
+                           countKey: count ?: [NSNull null]};
+    
+    AVMetadataItem *sourceItem = self.metadata[numberKey];
+    
+    AVMetadataItem *item =                                                              // 4
+        [converter metadataItemFromDisplayValue:data withMetadataItem:sourceItem];
+    
+    if (item) {
+        [items addObject:item];
+    }
+
+    
 }
 
 @end
