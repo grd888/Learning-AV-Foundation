@@ -29,20 +29,39 @@
 
 @interface THPlayerView ()
 // Listing 4.2
+@property (strong, nonatomic) THOverlayView *overlayView;   // 1
 @end
 
 @implementation THPlayerView
 
-- (id)initWithPlayer:(AVPlayer *)player {
-    self = [super initWithFrame:CGRectZero];
-    if (self) {
++ (Class)layerClass {                                       // 2
+    return [AVPlayerLayer class];
+}
 
+- (id)initWithPlayer:(AVPlayer *)player {
+    self = [super initWithFrame:CGRectZero];                // 3
+    if (self) {
         // Listing 4.2
+        self.backgroundColor = [UIColor blackColor];
+        self.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        
+        [(AVPlayerLayer *)[self layer] setPlayer:player];   // 4
+        
+        [[NSBundle mainBundle] loadNibNamed:@"THOverlayView" owner:self options:nil];   // 5
+        
+        [self addSubview:_overlayView];
         
     }
     return self;
 }
 
 // Listing 4.2
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.overlayView.frame = self.bounds;
+}
 
+- (id <THTransport>)transport {
+    return self.overlayView;
+}
 @end
